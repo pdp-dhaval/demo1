@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta charset="ISO-8859-1">
+<title></title>
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="angular/angular.min.js"></script>
+<script type="text/javascript" src="angular/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="cw-app.js"></script>
+<script type="text/javascript" src="app/classroom/studentRegistrationCtrl.js"></script>
+
+<body>
+<script>
+
+
+</script>
+<div ng-controller="studentRegistrationCtrl" class="col-md-12">
+<h1>Student Registration Form</h1>
+{{student}}
+<table class="table table table-bordered">
+<tbody>
+<tr>
+<th>Name</th>
+<td><input type="text" ng-model="student.name" class="form-control" placeholder="Enter Name">	
+</tr>
+<tr>
+<th>Roll No</th>
+<td><input type="text" ng-model="student.rollNo" class="form-control" placeholder="Enter Roll No">	
+</tr>
+
+<tr>
+<th>Division</th>
+<td><input type="text" ng-model="student.division" class="form-control" placeholder="Enter Devision">	
+</tr>
+
+<tr>
+<th>Gender</th>
+<td>
+<div ng-repeat="gender in genders">
+   <input type="radio" name="radio-primary" ng-model="student.gender.id" ng-value="gender.id" />{{gender.name}}
+</div>
+</td>	
+</tr>
+
+<tr>
+<th>Courses</th>
+<td>
+<div ng-repeat="course in courses">
+   <input type="checkbox" name="selectedCourses[]" value="{{course.id}}" ng-model="course.selected" />{{course.name}}
+</div>
+</td>	
+</tr>
+
+<tr>
+<th>Department</th>
+<td><select ng-model="student.department" ng-options="dep as dep.name for dep in departments track by dep.id" class="form-control">
+<option value="">Select Department</option>
+</select></td>	
+</tr>
+
+<tr>
+<td colspan="2"><input type="button" ng-click="addStudent()" value="{{buttonText}}" class="btn btn-success">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+<input type="button" class="btn btn-danger" ng-click="cancelEdit()" ng-show="isEditMode" value="Cancel">
+</tr>
+</tbody>
+</table>
+
+<br><br>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+ <th>Name</th>
+ <th>Roll No</th>
+ <th>Division</th>
+ <th>Gender</th>
+ <th>Courses</th>
+ <th>Department</th>
+ <th>Action</th>
+</tr>
+</thead>
+<tbody ng-repeat="student in students">
+<tr>
+<td>{{student.name || 'NA'}}</td>
+<td>{{student.rollNo || 'NA'}}</td>
+<td>{{student.division || 'NA'}}</td>
+<td>{{(student.gender ? student.gender.name : 'NA')}}</td>
+<td>
+<span ng-repeat="course in student.courses">
+{{course.name}}&nbsp;&nbsp;
+</span>
+</td>
+<td>{{(student.department ? student.department.name : 'NA')}}</td>
+<td><button type="button"  class="btn btn-success" ng-click="editStudent(student)">Edit</button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="button" class="btn btn-danger" ng-click="deleteStudent(student)">Delete</button></td>
+</tr>
+</tbody>
+<tr ng-if="students.length <= 0">
+<td colspan="6" class="text-center alert alert-danger">No Students Available</td>
+</tr>
+</table>
+
+<br><br>
+<h2>Search Student By Department</h2>
+
+<select ng-model="department" ng-options="dep as dep.name for dep in departments track by dep.id" class="form-control" ng-change="getStudentsByDepartment(department.id)">
+ <option value="">Select Department</option>
+</select>
+
+<br><br>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+ <th>Name</th>
+ <th>Roll No</th>
+ <th>Division</th>
+ <th>Gender</th>
+ <th>Department</th>
+</tr>
+</thead>
+<tbody ng-repeat="student in studentByDepartment">
+<tr>
+<td>{{student.name || 'NA'}}</td>
+<td>{{student.rollNo || 'NA'}}</td>
+<td>{{student.division || 'NA'}}</td>
+<td>{{(student.gender ? student.gender.name : 'NA')}}</td>
+<td>{{(student.department ? student.department.name : 'NA')}}</td>
+</tr>
+</tbody>
+
+<tr ng-if="studentByDepartment.length <= 0">
+<td colspan="5" class="text-center alert alert-danger">No Students Available For <b>{{department.name}}</b> Department</td>
+</tr>
+</table>
+
+
+
+<br><br>
+<h2>Search Student By Name</h2>
+
+<select ng-model="studByName" ng-options="stud as stud.name for stud in students" class="form-control" ng-change="getStudentById(studByName.id)">
+ <option value="">Select Department</option>
+</select>
+
+<br><br>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+ <th>Name</th>
+ <th>Roll No</th>
+ <th>Division</th>
+ <th>Gender</th>
+ <th>Department</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{{studentByName.name || 'NA'}}</td>
+<td>{{studentByName.rollNo || 'NA'}}</td>
+<td>{{studentByName.division || 'NA'}}</td>
+<td>{{(studentByName.gender ? studentByName.gender.name : 'NA')}}</td>
+<td>{{(studentByName.department ? studentByName.department.name : 'NA')}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

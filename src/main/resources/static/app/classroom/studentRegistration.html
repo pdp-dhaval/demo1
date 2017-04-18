@@ -1,0 +1,23 @@
+<h1>Student Registration Form</h1>
+{{student}}
+<table class="table table table-bordered">
+<tbody>
+<tr>
+<td>Name</td>
+<td><input type="text" ng-model="student.name">	
+</tr>
+<tr>
+<td>Roll No</td>
+<td><input type="text" ng-model="student.rollNo">	
+</tr>
+
+<tr>
+<td>Division</td>
+<td><input type="text" ng-model="student.division">	
+</tr>
+
+<tr>
+<td colspan="2"><input type="button" ng-click="addStudent()" value="Add">	
+</tr>
+</tbody>
+</table>
